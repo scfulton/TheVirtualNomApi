@@ -23,7 +23,7 @@ longitude: -95.46730649999999,
         };
         console.log("File has been created");
     });
-    
+    res.send(response.jsonBody.businesses);
   console.log(response.jsonBody.businesses[0].name);
 }).catch(e => {
   console.log(e);

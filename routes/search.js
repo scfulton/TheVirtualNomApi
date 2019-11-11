@@ -1,67 +1,59 @@
-'use strict';
- 
+"use strict";
+
+require("dotenv").config();
 var fs = require("fs");
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-// import '../queryResults.json';
-var json = require('../queryResult.json');
+var json = require("../queryResult.json");
 
+const givenRadius = 2000;
+const givenLocation = "9215 running eagle falls, tomball, tx 77375";
+const givenLat = 29.757241399999998;
+const givenLong = -95.46730649999999;
 
-const yelp = require('yelp-fusion');
-const client = yelp.client('UAoRvhpi0PKNClh1pDgb9OEKWeilv0DerV1lqHeaRWPjPXTkDQd3xfcg2gnOX2wAkpNL5yITDnlQzyrGc5CVTSrKo0U75xEkTg2O6Go4IXzzTMBkNuKVG1iiunDAXXYx ');
- 
-// client.search({
-// //   term: 'Four Barrel Coffee',
-// radius: 20000,
-// //   location: 'lat: 29.757241399999998, long:-95.46730649999999',
-// latitude: 29.757241399999998,
-// longitude: -95.46730649999999,
+const yelp = require("yelp-fusion");
+const client = yelp.client(process.env.YELP_API_KEY);
 
-// }).then(response => {
-//     fs.writeFile("./queryResult.json", JSON.stringify(response.jsonBody.businesses), (err) => {
-//         if (err) {
-//             console.error(err);
-//             return;
-//         };
-//         console.log("File has been created");
-//     });
-//     // res.send(response.jsonBody.businesses);
-//   console.log(response.jsonBody.businesses[0].name);
-// }).catch(e => {
-//   console.log(e);
-// });
-
-
-
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  // client.search({
-  //   //   term: 'Four Barrel Coffee',
-  //   radius: 20000,
-  //   //   location: 'lat: 29.757241399999998, long:-95.46730649999999',
-  //   latitude: 29.757241399999998,
-  //   longitude: -95.46730649999999,
-    
-  //   }).then(response => {
-  //       fs.writeFile("./queryResult.json", JSON.stringify(response.jsonBody.businesses), (err) => {
-  //           if (err) {
-  //               console.error(err);
-  //               return;
-  //           };
-  //           console.log("File has been created");
-  //       });
-  //       // res.send(response.jsonBody.businesses);
-  //     console.log(response.jsonBody.businesses[0].name);
-  //   }).catch(e => {
-  //     console.log(e);
-  //   });
-  res.send(json);
+router.get("/", function(req, res, next) {
+  client
+    .search({
+      radius: givenRadius,
+      location: givenLocation,
+      // latitude: givenLat,
+      // longitude: givenLong,
+    })
+    .then(response => {
+      // let names = response.jsonBody.businesses.map( (name) => {
+      //   return {value: name };
+      // });
+      // fs.writeFile(
+      //   "./queryResult.json",
+      //   // JSON.stringify(response.jsonBody.businesses),
+      //   JSON.stringify(names),
+        
+      //   err => {
+      //     if (err) {
+      //       console.error(err);
+      //       return;
+      //     }
+      //     console.log("File has been created");
+      //   }
+      // );
+
+
+      // console.log("names = " + names);
+      // res.send(response.jsonBody.businesses);
+      // console.log(response.jsonBody.businesses[0].name);
+      res.send(json);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  
 });
 
 module.exports = router;
-
-
-

@@ -1,0 +1,9 @@
+make file
+    touch .env
+type in file
+    API_KEY=abcde
+npm i dotenv
+type in search.js
+    require('dotenv').config();
+access via
+    const client = yelp.client(process.env.YELP_API_KEY);
